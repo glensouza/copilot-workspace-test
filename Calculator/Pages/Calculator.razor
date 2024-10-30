@@ -1,0 +1,93 @@
+@page "/calculator"
+
+<PageTitle>Calculator</PageTitle>
+
+<div class="calculator">
+    <div class="display">@displayValue</div>
+    <div class="buttons">
+        <button @onclick="() => OnButtonClick('C')">C</button>
+        <button @onclick="() => OnButtonClick('+/-')">+/-</button>
+        <button @onclick="() => OnButtonClick('%')">%</button>
+        <button @onclick="() => OnButtonClick('/')">/</button>
+        <button @onclick="() => OnButtonClick('7')">7</button>
+        <button @onclick="() => OnButtonClick('8')">8</button>
+        <button @onclick="() => OnButtonClick('9')">9</button>
+        <button @onclick="() => OnButtonClick('*')">*</button>
+        <button @onclick="() => OnButtonClick('4')">4</button>
+        <button @onclick="() => OnButtonClick('5')">5</button>
+        <button @onclick="() => OnButtonClick('6')">6</button>
+        <button @onclick="() => OnButtonClick('-')">-</button>
+        <button @onclick="() => OnButtonClick('1')">1</button>
+        <button @onclick="() => OnButtonClick('2')">2</button>
+        <button @onclick="() => OnButtonClick('3')">3</button>
+        <button @onclick="() => OnButtonClick('+')">+</button>
+        <button class="zero" @onclick="() => OnButtonClick('0')">0</button>
+        <button @onclick="() => OnButtonClick('.')">.</button>
+        <button @onclick="() => OnButtonClick('=')">=</button>
+    </div>
+</div>
+
+@code {
+    private string displayValue = "0";
+    private string currentOperator = string.Empty;
+    private double firstOperand;
+    private double secondOperand;
+    private bool isSecondOperand;
+
+    private void OnButtonClick(string buttonValue)
+    {
+        switch (buttonValue)
+        {
+            case "C":
+                displayValue = "0";
+                currentOperator = string.Empty;
+                firstOperand = 0;
+                secondOperand = 0;
+                isSecondOperand = false;
+                break;
+            case "+/-":
+                displayValue = (double.Parse(displayValue) * -1).ToString();
+                break;
+            case "%":
+                displayValue = (double.Parse(displayValue) / 100).ToString();
+                break;
+            case "/":
+            case "*":
+            case "-":
+            case "+":
+                currentOperator = buttonValue;
+                firstOperand = double.Parse(displayValue);
+                isSecondOperand = true;
+                break;
+            case "=":
+                secondOperand = double.Parse(displayValue);
+                displayValue = PerformCalculation().ToString();
+                currentOperator = string.Empty;
+                isSecondOperand = false;
+                break;
+            default:
+                if (isSecondOperand)
+                {
+                    displayValue = buttonValue;
+                    isSecondOperand = false;
+                }
+                else
+                {
+                    displayValue = displayValue == "0" ? buttonValue : displayValue + buttonValue;
+                }
+                break;
+        }
+    }
+
+    private double PerformCalculation()
+    {
+        return currentOperator switch
+        {
+            "/" => firstOperand / secondOperand,
+            "*" => firstOperand * secondOperand,
+            "-" => firstOperand - secondOperand,
+            "+" => firstOperand + secondOperand,
+            _ => 0,
+        };
+    }
+}
