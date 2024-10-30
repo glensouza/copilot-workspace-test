@@ -147,3 +147,61 @@ button:active {
 button.zero {
     grid-column: span 2;
 }
+
+.calculator {
+    width: 320px;
+    margin: 50px auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.display {
+    background: #333;
+    color: white;
+    font-size: 2em;
+    text-align: right;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+}
+
+.button {
+    background: #e0e0e0;
+    border: none;
+    padding: 20px;
+    font-size: 1.5em;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+    .button:hover {
+        background: #d0d0d0;
+    }
+
+    .button.operator {
+        background: #f5923e;
+        color: white;
+    }
+
+        .button.operator:hover {
+            background: #e6812c;
+        }
+
+    .button.function {
+        background: #a5a5a5;
+        color: white;
+    }
+
+        .button.function:hover {
+            background: #949494;
+        }
+
+    .button.zero {
+        grid-column: span 2;
+    }
